@@ -6,7 +6,7 @@ from django.conf import settings
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
                     datefmt='%m-%d %H:%M',
-                    filename=os_path.join(settings.PROJECT_PATH, 'debug.log'),
+                    filename=settings.LOGGING_FILE,
                     filemode='a')
 if settings.DEBUG:
     logging.info('**** DEBUGGING MODE ****')

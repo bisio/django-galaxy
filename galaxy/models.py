@@ -8,10 +8,12 @@ from django.template.defaultfilters import slugify
 import feedparser, feedfinder
 from galaxy.managers import *
 
+from project.helpers.slug import AutoSlugField
+
 class Blog(models.Model):
     """A blog or blog-like website run by an individual or corporation"""
     name        = models.CharField(_('name'), blank=True, max_length=255)
-    slug        = models.SlugField(_('slug'), prepopulate_from=("name",), blank=True)
+    slug        = AutoSlugField(_('slug'), max_length=255, prepopulate_from=("name",), blank=True)
     link        = models.URLField(blank=True, verify_exists=False)
     feed        = models.URLField(_('feed'), verify_exists=False, blank=True)
     owner       = models.CharField(_('owner'), blank=True, max_length=100)
@@ -94,7 +96,7 @@ class Post(models.Model):
     """A post or article from a blog"""
     blog    = models.ForeignKey(Blog)
     title   = models.CharField(_('title'), blank=True, max_length=255)
-    slug    = models.SlugField(_('slug'), prepopulate_from=("title",))
+    slug    = AutoSlugField(_('slug'), max_length=255, prepopulate_from=("title",))
     link    = models.URLField(_('link'), blank=True, verify_exists=False)
     body    = models.TextField(_('body'), blank=True)
     posted  = models.DateTimeField(_('posted'), blank=True, default=datetime.datetime.now)
